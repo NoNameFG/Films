@@ -1,0 +1,19 @@
+.add_film{
+  min-width: 500px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.add_film--buttons{
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.add_film--buttons_controll{
+  width: 230px;
+  display: flex;
+  justify-content: space-between;
+}
