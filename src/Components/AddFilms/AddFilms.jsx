@@ -30,6 +30,7 @@ function AddFilms(props){
     stars: '',
     format: ''
   })
+  const [fileData, setFileData] = useState(null)
   const [filmsListData, setFilmsListData] = useState([])
 
   const classes = useStyles()
@@ -68,6 +69,8 @@ function AddFilms(props){
   const imageUpload = e => {
     const file = e.target.files[0]
     if(file){
+      setFileData(e.target.files[0])
+
       const reader = new FileReader()
       reader.readAsText(file)
       reader.onload = event => {
@@ -80,9 +83,29 @@ function AddFilms(props){
   const handleAddFilms = async () => {
     try {
 
-      let send = filmsListData.length ? filmsListData : [filmData]
+      let sendData
 
-      await api.film.add(send)
+      if(filmsListData.length){
+        let send = new FormData()
+        send.append('file', fileData)
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data'
+          }
+        }
+        sendData = {
+          data: send,
+          config
+        }
+        console.log(sendData)
+      } else {
+        sendData = {
+          data: [filmData],
+          config: {}
+        }
+      }
+
+      await api.film.add(sendData)
 
       dispatch(getFilmListThunk())
 
